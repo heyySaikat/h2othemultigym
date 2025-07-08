@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://h2othemultigym.in/sitemap.xml
