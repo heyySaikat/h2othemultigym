@@ -30,21 +30,6 @@ if (navBtn) {
     }
   });
 }
-// Function to close notification manually
-function closeNotification() {
-  const notification = document.getElementById("browser-notification");
-  if (notification) {
-    notification.classList.remove("show");
-  }
-}
-// Detect Safari browser and show notification after 2 seconds
-window.onload = function () {
-  const isSafari = navigator.userAgent.indexOf("Safari") !== -1 && navigator.userAgent.indexOf("Chrome") === -1;
-  if (isSafari) {
-    setTimeout(showNotification, 2000);
-  }
-};
-
 // jQuery for slider image click effect
 jQuery(document).ready(function ($) {
   $(".sliderImg").on("click", function () {
@@ -52,88 +37,6 @@ jQuery(document).ready(function ($) {
     $(this).addClass("active");
   });
 });
-
-//dragging images
-// const wrapper = document.querySelector(".wrapper");
-// const carousel = document.querySelector(".carousel");
-// const arrowBtns = document.querySelectorAll(".wrapper i");
-// // const firstImgWidth = carousel.querySelector("img").offsetWidth;
-// const images = carousel.querySelectorAll("img");
-// const carouselChildren = [...carousel.children];
-
-// let isDragging = false, startX, startScrollLeft, timeoutId;
-
-// let imgPerView = Math.round(carousel.offsetWidth / images);
-
-// carouselChildren.slice(-imgPerView).reverse().forEach(img => {
-//   carousel.insertAdjacentHTML("afterBegin", img.outerHTML);
-// });
-
-// carouselChildren.slice(0, imgPerView).forEach(img => {
-//   carousel.insertAdjacentHTML("beforeEnd", img.outerHTML);
-// });
-
-// arrowBtns.forEach(btn => {
-//   btn.addEventListener("click", () => {
-//     // Calculate current image index based on scrollLeft and total image widths
-//     let currentIndex = Math.round(carousel.scrollLeft / images[0].offsetWidth);
-    
-//     // Ensure currentIndex stays within bounds
-//     currentIndex = Math.min(Math.max(currentIndex, 0), images.length - 1);
-    
-//     // Use the width of the current image to scroll
-//     const currentImgWidth = images[currentIndex]?.offsetWidth || images[0].offsetWidth;
-
-//     // Adjust scrollLeft by current image width, depending on button direction
-//     carousel.scrollLeft += btn.id === "arrLeft" ? -currentImgWidth : currentImgWidth;
-//   });
-// });
-
-
-// const dragStart = (e) => {
-//   isDragging = true;
-//   carousel.classList.add("dragging");
-//   startX = e.pageX;
-//   startScrollLeft = carousel.scrollLeft;
-// }
-
-// const dragging = (e) => {
-//   if (!isDragging) return;
-//   carousel.scrollLeft = startScrollLeft - (e.pageX -startX);
-// }
-
-// const dragStop = () => {
-//   isDragging = false;
-//   carousel.classList.remove("dragging");
-// }
-
-// const autoPlay = () => {
-//   timeoutId = setTimeout(() => carousel.scrollLeft += images[0].offsetWidth, 0);
-// }
-// autoPlay();
-// const infiniteScroll = () => {
-//   if(carousel.scrollLeft === 0) {
-//     carousel.classList.add("no-transition");
-//     carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
-//     carousel.classList.remove("no-transition");
-//   }
-//   else if(Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
-//     carousel.classList.add("no-transition");
-//     carousel.scrollLeft = carousel.offsetWidth;
-//     carousel.classList.remove("no-transition");
-//   }
-
-//   clearTimeout(timeoutId);
-//   if(!wrapper.matches(":hover")) autoPlay();
-// }
-
-// carousel.addEventListener("mousedown", dragStart);
-// carousel.addEventListener("mousemove", dragging);
-// document.addEventListener("mouseup", dragStop);
-// carousel.addEventListener("scroll", infiniteScroll);
-// wrapper.addEventListener("mouseenter", ()=> clearTimeout(timeoutId));
-// wrapper.addEventListener("mouseleave", autoPlay);
-
 
 const wrapper = document.querySelector(".wrapper");
 const carousel = document.querySelector(".carousel");
@@ -159,6 +62,7 @@ arrowBtns.forEach(btn => {
     currentIndex = Math.min(Math.max(currentIndex, 0), images.length - 1);
     const currentImgWidth = images[currentIndex]?.offsetWidth || images[0].offsetWidth;
     carousel.scrollLeft += btn.id === "arrLeft" ? -currentImgWidth : currentImgWidth;
+    autoPlay(); // Always resume autoplay after arrow navigation
   });
 });
 
@@ -185,25 +89,27 @@ const dragStop = () => {
 const autoPlay = () => {
   clearTimeout(timeoutId);
   timeoutId = setTimeout(() => {
-    carousel.scrollLeft += images[0].offsetWidth;
+    // Use the actual child image width for infinite scroll
+    const currentIndex = Math.round(carousel.scrollLeft / carousel.children[0].offsetWidth);
+    const currentImgWidth = carousel.children[currentIndex]?.offsetWidth || carousel.children[0].offsetWidth;
+    carousel.scrollLeft += currentImgWidth;
     autoPlay();
   }, 1000);
 }
 autoPlay();
 
 const infiniteScroll = () => {
-  if(carousel.scrollLeft === 0) {
+  // Seamless infinite scroll
+  if (carousel.scrollLeft <= 0) {
     carousel.classList.add("no-transition");
-    carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
+    carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth) - 1;
+    carousel.classList.remove("no-transition");
+  } else if (carousel.scrollLeft >= carousel.scrollWidth - carousel.offsetWidth) {
+    carousel.classList.add("no-transition");
+    carousel.scrollLeft = carousel.offsetWidth + 1;
     carousel.classList.remove("no-transition");
   }
-  else if(Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
-    carousel.classList.add("no-transition");
-    carousel.scrollLeft = carousel.offsetWidth;
-    carousel.classList.remove("no-transition");
-  }
-  clearTimeout(timeoutId);
-  if (!wrapper.matches(":hover")) autoPlay();
+  if (!wrapper.matches(":hover")) autoPlay(); // Only restart autoplay if not hovered
 }
 
 // Mouse events
