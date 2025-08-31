@@ -788,12 +788,6 @@ h1 {
   font-family: "Caveat", cursive;
   font-size: 50px;
 }
-.handText2{
-  font-family: "Outfit", sans-serif;
-  font-size: 50px;
-  font-weight: 1000;
-  padding: 0 10px;
-}
 .sectionRating > .box > ul {
   background-color: rgb(50, 50, 50);
   width: 50%;
@@ -1140,8 +1134,8 @@ h1 {
   .sectionRating > .box > ul > li > img {
     width: 30px;
   }
-  .handText1, .handText2{
-    font-size: 34px;
+  .handText1{
+    font-size: 40px;
   }
   .contacts > .contentSec {
     padding-top: 50px;
