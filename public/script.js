@@ -1,22 +1,25 @@
 // Page load overlay functionality
+// Minimum loader duration logic
+const minLoaderDuration = 4000; // 3 seconds
+const loaderStartTime = Date.now();
+
 window.addEventListener("load", function () {
-  // When the entire page (including images and CSS) is loaded
   const loadingOverlay = document.getElementById("loading-overlay");
+
   if (loadingOverlay) {
-    loadingOverlay.style.opacity = "0"; // Optional fade-out effect
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - loaderStartTime;
+    const remainingTime = Math.max(0, minLoaderDuration - elapsedTime);
+
     setTimeout(() => {
-      loadingOverlay.style.display = "none"; // Hide the overlay after fading out
-    }, 500); // 500ms fade-out duration
+      loadingOverlay.style.opacity = "0"; // Fade out
+      setTimeout(() => {
+        loadingOverlay.style.display = "none";
+      }, 500); // 500ms fade duration matches CSS transition if added, or just wait
+    }, remainingTime);
   }
 });
 
-// Hide loading overlay when fonts are ready
-document.fonts.ready.then(function () {
-  const loadingOverlay = document.getElementById("loading-overlay");
-  if (loadingOverlay) {
-    loadingOverlay.style.display = "none";
-  }
-});
 
 // Smooth scrolling to contacts section on nav button click
 const navBtn = document.querySelector("#navBtn");
