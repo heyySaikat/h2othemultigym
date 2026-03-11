@@ -54,17 +54,31 @@ navLinks.forEach(n => n.addEventListener('click', () => {
   if (hamburger) hamburger.classList.remove('active');
   if (navMenu) navMenu.classList.remove('active');
 }));
-// jQuery for slider image click effect
-jQuery(document).ready(function ($) {
-  $(".sliderImg").on("click", function () {
-    $(".sliderImg").removeClass("active");
-    $(this).addClass("active");
+
+// Vanilla JS for slider image click effect
+document.addEventListener('DOMContentLoaded', () => {
+  const sliderImgs = document.querySelectorAll(".sliderImg");
+  
+  sliderImgs.forEach(img => {
+    img.addEventListener("click", function (e) {
+      // Prevent bubbling so document click doesn't immediately fire
+      e.stopPropagation();
+      sliderImgs.forEach(si => si.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+
+  // Collapse images if user clicks outside of them
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".sliderImg")) {
+      sliderImgs.forEach(si => si.classList.remove("active"));
+    }
   });
 });
 
 const wrapper = document.querySelector(".wrapper");
 const carousel = document.querySelector(".carousel");
-const arrowBtns = document.querySelectorAll(".wrapper i");
+const arrowBtns = document.querySelectorAll(".wrapper .nav-arrow");
 const images = carousel.querySelectorAll("img");
 const carouselChildren = [...carousel.children];
 
@@ -80,13 +94,13 @@ carouselChildren.slice(0, imgPerView).forEach(img => {
   carousel.insertAdjacentHTML("beforeEnd", img.outerHTML);
 });
 
+// CSS gap is 10px
+const getImgWidth = () => images[0].offsetWidth + 10;
+
 arrowBtns.forEach(btn => {
   btn.addEventListener("click", () => {
-    let currentIndex = Math.round(carousel.scrollLeft / images[0].offsetWidth);
-    currentIndex = Math.min(Math.max(currentIndex, 0), images.length - 1);
-    const currentImgWidth = images[currentIndex]?.offsetWidth || images[0].offsetWidth;
-    carousel.scrollLeft += btn.id === "arrLeft" ? -currentImgWidth : currentImgWidth;
-    autoPlay(); // Always resume autoplay after arrow navigation
+    carousel.scrollLeft += btn.id === "arrLeft" ? -getImgWidth() : getImgWidth();
+    autoPlay(); 
   });
 });
 
@@ -96,7 +110,7 @@ const dragStart = (e) => {
   startX = e.pageX || (e.touches && e.touches[0].pageX);
   startY = e.pageY || (e.touches && e.touches[0].pageY);
   startScrollLeft = carousel.scrollLeft;
-  clearTimeout(timeoutId); // Stop autoplay during drag
+  clearTimeout(timeoutId); 
 }
 
 const dragging = (e) => {
@@ -117,33 +131,34 @@ const dragging = (e) => {
 const dragStop = () => {
   isDragging = false;
   carousel.classList.remove("dragging");
-  autoPlay(); // Resume autoplay after drag
+  autoPlay(); 
 }
 
 const autoPlay = () => {
   clearTimeout(timeoutId);
   timeoutId = setTimeout(() => {
-    // Use the actual child image width for infinite scroll
-    const currentIndex = Math.round(carousel.scrollLeft / carousel.children[0].offsetWidth);
-    const currentImgWidth = carousel.children[currentIndex]?.offsetWidth || carousel.children[0].offsetWidth;
-    carousel.scrollLeft += currentImgWidth;
+    carousel.scrollLeft += getImgWidth();
     autoPlay();
-  }, 1000);
+  }, 2000); // 2000 defaults better for viewing carousels smoothly
 }
 autoPlay();
 
 const infiniteScroll = () => {
-  // Seamless infinite scroll
-  if (carousel.scrollLeft <= 0) {
+  const originalWidth = images.length * getImgWidth();
+  
+  if (carousel.scrollLeft === 0) {
     carousel.classList.add("no-transition");
-    carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth) - 1;
+    carousel.scrollLeft += originalWidth;
+    carousel.offsetHeight; // Force layout reflow
     carousel.classList.remove("no-transition");
-  } else if (carousel.scrollLeft >= carousel.scrollWidth - carousel.offsetWidth) {
+  } else if (Math.ceil(carousel.scrollLeft) >= carousel.scrollWidth - carousel.offsetWidth) {
     carousel.classList.add("no-transition");
-    carousel.scrollLeft = carousel.offsetWidth + 1;
+    carousel.scrollLeft -= originalWidth;
+    carousel.offsetHeight; // Force layout
     carousel.classList.remove("no-transition");
   }
-  if (!wrapper.matches(":hover")) autoPlay(); // Only restart autoplay if not hovered
+  
+  if (!wrapper.matches(":hover")) autoPlay(); 
 }
 
 // Mouse events

@@ -12,6 +12,13 @@
   /* IE and Edge */
 }
 
+img, a {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
 ::-webkit-scrollbar {
   display: none;
   width: 0;
@@ -662,6 +669,7 @@ body {
   cursor: default;
   background-image: url("resources/bgblend2.webp");
   background-size: cover;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
@@ -704,8 +712,12 @@ body {
 
 .sliderImages {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 21px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .sliderImages img {
@@ -716,32 +728,17 @@ body {
 }
 
 .sliderImg {
-  width: 250px;
+  flex: 1;
+  width: 100%;
+  max-width: 250px;
+  height: 520px;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
-  transition: 0.7s ease;
+  transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
 }
-
-/* .sliderImages .sliderImg:first-child, .sliderImages .sliderImg:last-child{
-  height: 480px;
-}
-.sliderImages .sliderImg:nth-child(2), .sliderImages .sliderImg:nth-child(4){
-  height: 520px;
-}
-.sliderImages .sliderImg:nth-child(3){
-  height: 580px;
-} */
-
-.sliderImages .sliderImg:first-child,
-.sliderImages .sliderImg:last-child {
-  height: 520px;
-}
-
-/* .sliderImages .sliderImg:nth-child(2) {
-  height: 580px;
-} */
-h1 {
+.sliderImg h1 {
   font-size: 40px;
   font-weight: 700;
   text-align: left;
@@ -767,7 +764,6 @@ h1 {
   font-weight: 700;
   text-align: left;
   line-height: 44px;
-  text-align: left;
   color: #fff;
   text-transform: uppercase;
   transition: 0.7s ease;
@@ -778,14 +774,14 @@ h1 {
   font-size: 20px;
   text-align: left;
   line-height: 33px;
-  text-align: left;
   color: #fff;
   transition: 0.7s ease;
   display: none;
 }
 
 .sliderImg.active {
-  width: auto !important;
+  flex: 3;
+  max-width: 550px !important;
   height: 750px !important;
 }
 
@@ -968,6 +964,7 @@ h1 {
   cursor: default;
   background-image: url("resources/bgblend2.webp");
   background-size: cover;
+  background-attachment: fixed;
   position: relative;
   z-index: 2;
   color: white;
@@ -1318,42 +1315,16 @@ h1 {
 
   .sliderImages {
     gap: 10px;
-    /* Reduce the gap between images */
   }
 
   .sliderImg {
-    width: 170px;
-    /* Reduce width of images */
-  }
-
-  /* .sliderImages .sliderImg:first-child,
-  .sliderImages .sliderImg:last-child {
-    height: 320px;
-  }
-
-  .sliderImages .sliderImg:nth-child(2),
-  .sliderImages .sliderImg:nth-child(4) {
+    max-width: 140px;
     height: 360px;
   }
 
-  .sliderImages .sliderImg:nth-child(3) {
-    height: 400px;
-  } */
-
-  .sliderImages .sliderImg:first-child,
-  .sliderImages .sliderImg:last-child {
-    height: 360px;
-  }
-
-  /* .sliderImages .sliderImg:nth-child(2){
-  height: 400px;
-} */
-
-  h1 {
+  .sliderImg h1 {
     font-size: 20px;
-    /* Reduce font size for mobile */
     left: -8%;
-    /* Adjust position */
   }
 
   .details h2 {
@@ -1371,8 +1342,8 @@ h1 {
   }
 
   .sliderImg.active {
-    height: 500px !important;
-    /* Adjust height for active image on mobile */
+    max-width: 350px !important;
+    height: 550px !important;
   }
 
   .socials .fb button span,
@@ -1409,36 +1380,13 @@ h1 {
   }
 
   .sliderImg {
-    width: 140px;
-  }
-
-  /* .sliderImages .sliderImg:first-child,
-  .sliderImages .sliderImg:last-child {
-    height: 280px;
-  }
-
-  .sliderImages .sliderImg:nth-child(2),
-  .sliderImages .sliderImg:nth-child(4) {
+    max-width: 100px;
     height: 320px;
   }
 
-  .sliderImages .sliderImg:nth-child(3) {
-    height: 360px;
-  } */
-  .sliderImages .sliderImg:first-child,
-  .sliderImages .sliderImg:last-child {
-    height: 320px;
-  }
-
-  /* .sliderImages .sliderImg:nth-child(2){
-  height: 360px;
-} */
-
-  h1 {
+  .sliderImg h1 {
     font-size: 20px;
-    /* Smaller font size */
     left: -6%;
-    /* Adjusted position */
   }
 
   .details h2 {
@@ -1456,8 +1404,8 @@ h1 {
   }
 
   .sliderImg.active {
-    height: 420px !important;
-    /* Adjust height for active image */
+    max-width: 250px !important;
+    height: 520px !important;
   }
 
   .sliderImg.active .details {
