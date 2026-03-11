@@ -68,7 +68,7 @@ const arrowBtns = document.querySelectorAll(".wrapper i");
 const images = carousel.querySelectorAll("img");
 const carouselChildren = [...carousel.children];
 
-let isDragging = false, startX, startScrollLeft, timeoutId;
+let isDragging = false, startX, startY, startScrollLeft, timeoutId;
 
 let imgPerView = Math.round(carousel.offsetWidth / images[0].offsetWidth);
 
@@ -93,14 +93,24 @@ arrowBtns.forEach(btn => {
 const dragStart = (e) => {
   isDragging = true;
   carousel.classList.add("dragging");
-  startX = e.pageX || e.touches[0].pageX;
+  startX = e.pageX || (e.touches && e.touches[0].pageX);
+  startY = e.pageY || (e.touches && e.touches[0].pageY);
   startScrollLeft = carousel.scrollLeft;
   clearTimeout(timeoutId); // Stop autoplay during drag
 }
 
 const dragging = (e) => {
   if (!isDragging) return;
-  const x = e.pageX || e.touches[0].pageX;
+  const x = e.pageX || (e.touches && e.touches[0].pageX);
+  const y = e.pageY || (e.touches && e.touches[0].pageY);
+  
+  if (e.touches && Math.abs(y - startY) > Math.abs(x - startX)) {
+    isDragging = false;
+    carousel.classList.remove("dragging");
+    autoPlay();
+    return;
+  }
+  
   carousel.scrollLeft = startScrollLeft - (x - startX);
 }
 

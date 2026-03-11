@@ -21,24 +21,37 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" />
+  </noscript>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com/" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;display=swap" />
+  </noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" />
+  </noscript>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  </noscript>
   <link rel="preload"
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Orbitron:wght@400..900&amp;family=Outfit:wght@100..900&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&amp;display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap" as="style"
-    onload="this.onload=null;this.rel='stylesheet'" />
 
   <noscript>
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Orbitron:wght@400..900&amp;family=Outfit:wght@100..900&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&amp;display=swap" />
   </noscript>
   <link rel="preload" href="resources/bgDesktop.webp" as="image" />
-  <link rel="preload" href="resources/bgMobile2.webp" as="image" />
   <link rel="stylesheet" href="style.css?v=13" />
   <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon" />
 
@@ -73,11 +86,12 @@
           <span class="nav-title">H2O The MultiGym</span>
         </a>
       </div>
-      <div class="hamburger" id="hamburger">
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu"
+        style="background: none; border: none; padding: 0;">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
-      </div>
+      </button>
       <ul class="nav-menu" id="nav-menu">
         <li class="nav-item"><a href="#"
             onclick="document.querySelector('.moves').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
@@ -109,10 +123,7 @@
       </div>
     </div>
   </div>
-  <div class="watermark">
-    Designed by
-    <a href="https://www.github.com/heyySaikat/">heyySaikat</a>
-  </div>
+
   <div class="moves">
     <div class="title reveal-up">Find what moves you</div>
     <div class="boxes reveal-up">
@@ -233,7 +244,7 @@
             </div> -->
 
           <div class="sliderImg">
-            <img src="resized/trainerHimadri-1200.webp" alt="Himadri Dey" />
+            <img src="resized/trainerHimadri-1200.webp" alt="Himadri Dey" loading="lazy" />
             <h1>Himadri</h1>
             <div class="details">
               <h2>Himadri Dey</h2>
@@ -242,7 +253,7 @@
           </div>
 
           <div class="sliderImg">
-            <img src="resized/trainerArnob-1200.webp" alt="Arnob Bose" />
+            <img src="resized/trainerArnob-1200.webp" alt="Arnob Bose" loading="lazy" />
             <h1>Arnob</h1>
             <div class="details">
               <h2>Arnob Bose</h2>
@@ -262,7 +273,7 @@
       classes sorted by time, style, and skill level.
     </div>
     <div class="wrapper reveal-up delay-1">
-      <i id="arrLeft" class="fa-solid fa-angle-left"></i>
+      <i id="arrLeft" class="fa-solid fa-angle-left" role="button" aria-label="Previous Image" tabindex="0"></i>
       <div class="carousel">
         <img src="resized/img1-400.webp" srcset="
               /resized/img1-400.webp   400w,
@@ -270,100 +281,100 @@
               /resized/img1-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 1" draggable="false" />
+                   1200px" alt="Image 1" draggable="false" loading="lazy" />
         <img src="resized/img2-400.webp" srcset="
               /resized/img2-400.webp   400w,
               /resized/img2-800.webp   800w,
               /resized/img2-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 2" draggable="false" />
+                   1200px" alt="Image 2" draggable="false" loading="lazy" />
         <img src="resized/img3-400.webp" srcset="
               /resized/img3-400.webp   400w,
               /resized/img3-800.webp   800w,
               /resized/img3-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 3" draggable="false" />
+                   1200px" alt="Image 3" draggable="false" loading="lazy" />
         <img src="resized/img4-400.webp" srcset="
               /resized/img4-400.webp   400w,
               /resized/img4-800.webp   800w,
               /resized/img4-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 4" draggable="false" />
+                   1200px" alt="Image 4" draggable="false" loading="lazy" />
         <img src="resized/img5-400.webp" srcset="
               /resized/img5-400.webp   400w,
               /resized/img5-800.webp   800w,
               /resized/img5-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 5" draggable="false" />
+                   1200px" alt="Image 5" draggable="false" loading="lazy" />
         <img src="resized/img6-400.webp" srcset="
               /resized/img6-400.webp   400w,
               /resized/img6-800.webp   800w,
               /resized/img6-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 6" draggable="false" />
+                   1200px" alt="Image 6" draggable="false" loading="lazy" />
         <img src="resized/img7-400.webp" srcset="
               /resized/img7-400.webp   400w,
               /resized/img7-800.webp   800w,
               /resized/img7-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 7" draggable="false" />
+                   1200px" alt="Image 7" draggable="false" loading="lazy" />
         <img src="resized/img8-400.webp" srcset="
               /resized/img8-400.webp   400w,
               /resized/img8-800.webp   800w,
               /resized/img8-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 8" draggable="false" />
+                   1200px" alt="Image 8" draggable="false" loading="lazy" />
         <img src="/resized/img9-400.webp" srcset="
               /resized/img9-400.webp   400w,
               /resized/img9-800.webp   800w,
               /resized/img9-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 9" draggable="false" />
+                   1200px" alt="Image 9" draggable="false" loading="lazy" />
         <img src="/resized/img10-400.webp" srcset="
               /resized/img10-400.webp   400w,
               /resized/img10-800.webp   800w,
               /resized/img10-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 10" draggable="false" />
+                   1200px" alt="Image 10" draggable="false" loading="lazy" />
         <img src="/resized/img11-400.webp" srcset="
               /resized/img11-400.webp   400w,
               /resized/img11-800.webp   800w,
               /resized/img11-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 11" draggable="false" />
+                   1200px" alt="Image 11" draggable="false" loading="lazy" />
         <img src="/resized/img12-400.webp" srcset="
               /resized/img12-400.webp   400w,
               /resized/img12-800.webp   800w,
               /resized/img12-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 12" draggable="false" />
+                   1200px" alt="Image 12" draggable="false" loading="lazy" />
         <img src="/resized/img13-400.webp" srcset="
               /resized/img13-400.webp   400w,
               /resized/img13-800.webp   800w,
               /resized/img13-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 13" draggable="false" />
+                   1200px" alt="Image 13" draggable="false" loading="lazy" />
         <img src="/resized/img14-400.webp" srcset="
               /resized/img14-400.webp   400w,
               /resized/img14-800.webp   800w,
               /resized/img14-1200.webp 1200w
             " sizes="(max-width: 600px) 400px, 
                    (max-width: 1200px) 800px, 
-                   1200px" alt="Image 14" draggable="false" />
+                   1200px" alt="Image 14" draggable="false" loading="lazy" />
       </div>
-      <i id="arrRight" class="fa-solid fa-angle-right"></i>
+      <i id="arrRight" class="fa-solid fa-angle-right" role="button" aria-label="Next Image" tabindex="0"></i>
     </div>
   </div>
   <!-- <div class="separator"></div> -->
@@ -399,8 +410,9 @@
 
     <div class="socials reveal-up delay-1">
       <div class="fb">
-        <a href="https://www.facebook.com/share/19ptktkr3j/" target="_blank" rel="noopener noreferrer">
-          <button>
+        <a href="https://www.facebook.com/share/19ptktkr3j/" target="_blank" rel="noopener noreferrer"
+          aria-label="Facebook">
+          <button aria-label="facebook">
             <svg viewBox="0 0 16 16" class="bi bi-facebook" fill="currentColor" height="16" width="16"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -413,8 +425,8 @@
       </div>
       <div class="ig">
         <a href="https://www.instagram.com/h2ogymbarasat?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener noreferrer">
-          <button>
+          target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <button aria-label="instagram">
             <svg viewBox="0 0 16 16" class="bi bi-instagram" fill="#e13a55" height="22px" width="22px"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -455,8 +467,7 @@
       </div>
     </div>
   </div>
-  <div class="separator"></div>
-  <script src="jQuery.js"></script>
+  <script src="jQuery.js" defer></script>
   <script src="script.js?v=2" defer></script>
 </body>
 
