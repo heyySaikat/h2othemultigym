@@ -1266,14 +1266,14 @@ body {
     border-radius: 15px;
   }
 
-  /* .wrapper i{
+  /* .wrapper .nav-arrow {
     display: none;
   } */
-  .wrapper i:first-child {
+  .wrapper .nav-arrow:first-child {
     left: 0;
   }
 
-  .wrapper i:last-child {
+  .wrapper .nav-arrow:last-child {
     right: 0;
   }
 
