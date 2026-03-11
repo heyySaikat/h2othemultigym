@@ -24,6 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com/" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
   <link rel="preload"
@@ -38,18 +39,14 @@
   </noscript>
   <link rel="preload" href="resources/bgDesktop.webp" as="image" />
   <link rel="preload" href="resources/bgMobile2.webp" as="image" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=13" />
   <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon" />
-  <style>
-    #navTxt {
-      font-family: "Anton", sans-serif;
-    }
-  </style>
+
 </head>
 
 <body>
   <div id="loading-overlay">
-    <img src="resources/4thAnn.webp" alt="Loading..." id="loader-img">
+    <div class="premium-loader"></div>
   </div>
   <!-- notification -->
   <div id="browser-notification">
@@ -63,14 +60,38 @@
   </div>
   <!-- notification -->
 
+  <div class="scroll-progress-container">
+    <div id="scroll-progress"></div>
+  </div>
+
   <div class="main">
-    <nav>
-      <span>
-        <div id="navTxt">H2O TheMultiGym</div>
-      </span>
-      <span>
-        <button id="navBtn">Contact Us</button>
-      </span>
+    <div class="hero-bg"></div>
+    <nav id="navbar">
+      <div class="nav-brand">
+        <a id="navTxt" href="#" onclick="window.scrollTo(0, 0); return false;" aria-label="H2O TheMultiGym Home">
+          <img src="resources/logo.svg" alt="H2O TheMultiGym" class="nav-logo" />
+          <span class="nav-title">H2O The MultiGym</span>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu" id="nav-menu">
+        <li class="nav-item"><a href="#"
+            onclick="document.querySelector('.moves').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
+            class="nav-link">Classes</a></li>
+        <li class="nav-item"><a href="#"
+            onclick="document.querySelector('.instructors').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
+            class="nav-link">Instructors</a></li>
+        <li class="nav-item"><a href="#"
+            onclick="document.querySelector('.photos').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
+            class="nav-link">Gallery</a></li>
+        <li class="nav-item"><a href="#"
+            onclick="document.querySelector('.contacts').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
+            class="nav-link">Contact Us</a></li>
+      </ul>
     </nav>
     <div class="box">
       <div class="content">
@@ -93,10 +114,14 @@
     <a href="https://www.github.com/heyySaikat/">heyySaikat</a>
   </div>
   <div class="moves">
-    <div class="title">Find what moves you</div>
-    <div class="boxes">
+    <div class="title reveal-up">Find what moves you</div>
+    <div class="boxes reveal-up">
       <div class="gym">
         <div class="text">Gym</div>
+        <div class="interaction-hint">
+          <span class="desktop-hint">Hover to know more</span>
+          <span class="mobile-hint">Tap to know more</span>
+        </div>
         <div class="overlay">
           <div class="title">
             <div class="text">Strength & Sweat</div>
@@ -121,13 +146,17 @@
             </div>
             <div class="timing">
               Timings
-              <div>Mon-Sat: Morning 6 AM - 2 PM, Evening 4 PM - 10 PM</div>
+              <div>Mon-Sat: <br>Morning 6 AM - 2 PM <br>Evening 4 PM - 10 PM</div>
             </div>
           </div>
         </div>
       </div>
       <div class="zumba">
         <div class="text">Zumba</div>
+        <div class="interaction-hint">
+          <span class="desktop-hint">Hover to know more</span>
+          <span class="mobile-hint">Tap to know more</span>
+        </div>
         <div class="overlay">
           <div class="notice">
             *Zumba classes are temporarily off.
@@ -159,8 +188,8 @@
   </div>
   <div class="separator"></div>
   <div class="instructors">
-    <div class="title">Instructors</div>
-    <div class="body">
+    <div class="title reveal-up">Instructors</div>
+    <div class="body reveal-up">
       <div class="sliderContainer">
         <div class="sliderImages">
           <!-- <div class="sliderImg">
@@ -203,14 +232,14 @@
               </div>
             </div> -->
 
-          <!-- <div class="sliderImg">
-              <img src="resized/trainerAmit-1200.webp" alt="Amit Chowdhury" />
-              <h1>Amit</h1>
-              <div class="details">
-                <h2>Amit Chowdhury</h2>
-                <p>Gym trainer</p>
-              </div>
-            </div> -->
+          <div class="sliderImg">
+            <img src="resized/trainerHimadri-1200.webp" alt="Himadri Dey" />
+            <h1>Himadri</h1>
+            <div class="details">
+              <h2>Himadri Dey</h2>
+              <p>Gym trainer</p>
+            </div>
+          </div>
 
           <div class="sliderImg">
             <img src="resized/trainerArnob-1200.webp" alt="Arnob Bose" />
@@ -226,13 +255,13 @@
   </div>
   <div class="separator"></div>
   <div class="photos">
-    <div class="title">Fit for your lifestyle</div>
-    <div class="body">
+    <div class="title reveal-up">Fit for your lifestyle</div>
+    <div class="body reveal-up">
       Wake up with a sunrise meditation, sweat it out with lunchtime HIIT, or
       unwind with an evening flow. You'll find movement for every mood with
       classes sorted by time, style, and skill level.
     </div>
-    <div class="wrapper">
+    <div class="wrapper reveal-up delay-1">
       <i id="arrLeft" class="fa-solid fa-angle-left"></i>
       <div class="carousel">
         <img src="resized/img1-400.webp" srcset="
@@ -339,8 +368,8 @@
   </div>
   <!-- <div class="separator"></div> -->
   <div class="sectionRating">
-    <div class="title">Rate Us NOW!</div>
-    <div class="box">
+    <div class="title reveal-up">Rate Us NOW!</div>
+    <div class="box reveal-up">
       <div class="handText">
         <div class="handText1">Go on ↴</div>
       </div>
@@ -360,15 +389,15 @@
   <div class="separator"></div>
 
   <div class="contacts">
-    <div class="title">Contact Today</div>
-    <div class="contactPara">
+    <div class="title reveal-up">Contact Today</div>
+    <div class="contactPara reveal-up">
       Join us today and experience the transformative power of our fitness
       classes. Don't wait to start your fitness journey. Take the first step
       towards a healthier, stronger you. Let's sweat, have fun, and make
       fitness a way of life together!
     </div>
 
-    <div class="socials">
+    <div class="socials reveal-up delay-1">
       <div class="fb">
         <a href="https://www.facebook.com/share/19ptktkr3j/" target="_blank" rel="noopener noreferrer">
           <button>
@@ -398,7 +427,7 @@
       </div>
     </div>
 
-    <div class="contentSec">
+    <div class="contentSec reveal-up delay-2">
       <div class="contactInfo">
         <div class="title">Contact Info</div>
         <div class="text">
@@ -428,7 +457,7 @@
   </div>
   <div class="separator"></div>
   <script src="jQuery.js"></script>
-  <script src="script.js" defer></script>
+  <script src="script.js?v=2" defer></script>
 </body>
 
 </html>
