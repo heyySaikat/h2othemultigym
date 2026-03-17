@@ -12,7 +12,8 @@
   /* IE and Edge */
 }
 
-img, a {
+img,
+a {
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
@@ -155,7 +156,7 @@ body {
 
 .hero-bg {
   position: absolute;
-  top: -20%;
+  /* top: -20%; */
   left: 0;
   width: 100%;
   height: 140%;
@@ -738,6 +739,7 @@ body {
   transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
 }
+
 .sliderImg h1 {
   font-size: 40px;
   font-weight: 700;
@@ -1239,6 +1241,10 @@ body {
     position: relative;
   }
 
+  .main>.box {
+    top: 25vh;
+  }
+
   .watermark a {
     display: block;
   }
@@ -1674,7 +1680,8 @@ body {
   #navbar.scrolled .nav-link {
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    transform: translateZ(0); /* Fix for Safari blur dropping */
+    transform: translateZ(0);
+    /* Fix for Safari blur dropping */
     position: relative;
     z-index: 10;
   }
@@ -1693,14 +1700,17 @@ body {
   .nav-link::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     background: rgba(25, 25, 25, 0.9);
     border-radius: 30px;
     z-index: -1;
   }
-  
+
   .nav-link {
     display: inline-block;
     padding: 12px 25px;
