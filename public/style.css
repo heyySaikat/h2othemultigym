@@ -1362,7 +1362,7 @@ body {
 
   .sectionRating>.box>.buttonRating {
     background: linear-gradient(90deg,
-        rgba(254, 92, 0, 0.8) -10%,
+        rgba(0, 165, 254, 0.8) -10%,
         rgba(254, 92, 0, 0.5) 100%);
     border: 1px solid var(--primary-color);
     text-decoration: none;
