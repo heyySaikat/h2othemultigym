@@ -1,5 +1,6 @@
 :root {
-  --primary-color: #ff4601;
+  /* --primary-color: #ff4601; */
+  --primary-color: #00a7fa;
 }
 
 * {
@@ -88,11 +89,11 @@ body {
 .premium-loader {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(254, 92, 0, 0.2);
-  border-left-color: #fe5c00;
+  border: 4px solid rgba(0, 114, 254, 0.2);
+  border-left-color: var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  box-shadow: 0 0 15px rgba(254, 92, 0, 0.4);
+  box-shadow: 0 0 15px rgba(0, 144, 254, 0.4);
 }
 
 @keyframes spin {
@@ -165,7 +166,7 @@ body {
       rgba(0, 0, 0, 0.4) 0%,
       rgba(20, 20, 20, 0.4) 50%,
       #141414 100%),
-    url("resources/bgDesktop.webp") no-repeat top center/cover;
+    url("resources/bgDesktop.jpeg") no-repeat top center/cover;
   background-attachment: scroll;
   background-size: max(1500px, 100vw);
   will-change: transform;
@@ -179,7 +180,7 @@ body {
         rgba(0, 0, 0, 0.4) 0%,
         rgba(20, 20, 20, 0.4) 50%,
         #141414 100%),
-      url("resources/bgDesktop.webp") no-repeat top center/cover;
+      url("resources/bgDesktop.jpeg") no-repeat top center/cover;
     background-size: cover;
     background-position: top center;
   }
@@ -708,7 +709,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 50px 0;
 }
 
 .sliderImages {
@@ -844,7 +845,7 @@ body {
 
 .wrapper .nav-arrow:hover {
   background: var(--primary-color);
-  box-shadow: 0 0 15px rgba(254, 92, 0, 0.6);
+  box-shadow: 0 0 15px rgba(254, 216, 0, 0.6);
 }
 
 .wrapper .nav-arrow:first-child {
@@ -943,8 +944,8 @@ body {
 
 .sectionRating>.box>.buttonRating {
   background: linear-gradient(90deg,
-      rgba(254, 92, 0, 0.8) -10%,
-      rgba(254, 92, 0, 0.5) 100%);
+      rgba(0, 152, 254, 0.8) -10%,
+      rgba(0, 162, 255, 0.5) 100%);
   border: 1px solid var(--primary-color);
   text-decoration: none;
   color: white;
@@ -957,8 +958,8 @@ body {
 }
 
 .sectionRating>.box>.buttonRating:hover {
-  box-shadow: 0 0 20px rgba(254, 92, 0, 0.6);
-  border-color: #ff7d33;
+  box-shadow: 0 0 20px rgba(254, 237, 0, 0.6);
+  border-color: #ffcc33;
   transform: translateY(-2px);
 }
 
@@ -1079,11 +1080,11 @@ body {
 
 .socials .ig button:hover {
   color: #fff;
-  border: 1px solid rgb(255, 0, 0);
+  border: 1px solid #E1306C;
 }
 
 .socials .ig button svg {
-  fill: rgb(255, 0, 0);
+  fill: #E1306C;
   /* Initial color */
   transition: fill 0.8s ease-out;
   /* Smooth transition */
@@ -1108,7 +1109,7 @@ body {
   border-radius: 25px;
   outline: none;
   overflow: hidden;
-  color: rgb(255, 0, 0);
+  color: #E1306C;
   transition: color 0.3s 0.1s ease-out;
   text-align: center;
 }
@@ -1137,11 +1138,11 @@ body {
 
 .socials .ig button:hover {
   color: #fff;
-  border: 1px solid rgb(255, 0, 0);
+  border: 1px solid #E1306C;
 }
 
 .socials .ig button:hover::before {
-  box-shadow: inset 0 0 0 10em rgb(255, 0, 0);
+  box-shadow: inset 0 0 0 10em #E1306C;
 }
 
 .socials .ig a {
@@ -1297,7 +1298,7 @@ body {
         rgba(0, 0, 0, 0.7) 0%,
         rgba(20, 20, 20, 0) 50%,
         #141414 100%),
-      url(resources/bgDesktop.webp) no-repeat center center / cover;
+      url(resources/bgDesktop.jpeg) no-repeat center center / cover;
     background-size: max(600px, 100vw);
     min-height: 100vh;
     height: auto;
@@ -1495,6 +1496,10 @@ body {
   .sliderImg.active .details p {
     font-size: 14px;
     /* Adjusted p size for active image */
+  }
+
+  .addr img {
+    width: 40px;
   }
 }
 
