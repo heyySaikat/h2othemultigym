@@ -25,10 +25,13 @@ function handleNavbarScroll() {
     window.requestAnimationFrame(() => {
       const scrollPos = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
       if (navbar) {
+        const notifPanel = document.getElementById('notificationPanel');
         if (scrollPos > 50) {
           navbar.classList.add('scrolled');
+          if (notifPanel) notifPanel.classList.add('scrolled');
         } else {
           navbar.classList.remove('scrolled');
+          if (notifPanel) notifPanel.classList.remove('scrolled');
         }
       }
       navTicking = false;
@@ -234,4 +237,194 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
 
 revealElements.forEach(el => {
   revealObserver.observe(el);
+});
+
+// --- Notification System ---
+document.addEventListener('DOMContentLoaded', () => {
+  const notificationBtn = document.getElementById('notificationBtn');
+  const notificationPanel = document.getElementById('notificationPanel');
+  const closeNotificationPanel = document.getElementById('closeNotificationPanel');
+  const notificationContent = document.getElementById('notificationContent');
+  
+  if (!notificationBtn || !notificationPanel) return;
+
+  // Toggle panel
+  notificationBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = notificationPanel.classList.toggle('open');
+    if (window.innerWidth <= 768) {
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+  });
+  
+  closeNotificationPanel.addEventListener('click', () => {
+    notificationPanel.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+  
+  // Prevent background UI from scrolling on desktop when hovering over the panel
+  notificationPanel.addEventListener('wheel', (e) => {
+    const isScrollable = notificationContent.scrollHeight > notificationContent.clientHeight;
+    // If panel doesn't have a scrollbar, stop the mouse wheel from reaching the body
+    if (!isScrollable) {
+      e.preventDefault();
+    }
+    // (If it is scrollable, the newly added CSS 'overscroll-behavior: contain' catches the boundaries)
+  }, { passive: false });
+  
+  // Close if clicked outside
+  document.addEventListener('click', (e) => {
+    if (notificationPanel.classList.contains('open')) {
+      if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
+        notificationPanel.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+  
+  // Fetch notifications
+  // Using gviz/tq as it reliably provides CORS for public google sheets
+  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1nkgpX6l6BOSFygyQF0BANZ9L68Cb1GYojZx8B02vnpQ/gviz/tq?tqx=out:csv';
+  
+  function parseCSV(str) {
+    const arr = [];
+    let quote = false;
+    let row = 0, col = 0, c = 0;
+    for (; c < str.length; c++) {
+      let cc = str[c], nc = str[c+1];
+      arr[row] = arr[row] || [];
+      arr[row][col] = arr[row][col] || '';
+      if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+      if (cc == '"') { quote = !quote; continue; }
+      if (cc == ',' && !quote) { ++col; continue; }
+      if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+      if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+      if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+      arr[row][col] += cc;
+    }
+    return arr;
+  }
+  
+  fetch(SHEET_CSV_URL)
+    .then(res => res.text())
+    .then(csvText => {
+      const data = parseCSV(csvText);
+      const notifications = [];
+      
+      data.forEach(row => {
+        if (!row || row.length === 0) return;
+        let section = row[0] ? row[0].trim() : '';
+        if (!section || section === '""') return; // Ignore empty sections
+        
+        // Remove surrounding quotes if any
+        section = section.replace(/^"|"$/g, '').trim();
+        
+        // Check other columns for content
+        for (let i = 1; i < row.length; i++) {
+          let item = row[i] ? row[i].trim() : '';
+          item = item.replace(/^"|"$/g, '').trim(); // Remove surrounding quotes
+          if (item && item !== '-') { // Ignoring empty or just dashes
+            notifications.push({ section: section, text: item });
+          }
+        }
+      });
+      
+      if (notifications.length > 0) {
+        notificationBtn.classList.add('has-notifications');
+        // Render up to 3 notifications
+        const limit = Math.min(notifications.length, 3);
+        let html = '';
+        for (let i = 0; i < limit; i++) {
+          html += `
+            <div class="notification-card">
+              <div class="notif-section">${notifications[i].section}</div>
+              <div class="notif-text">${notifications[i].text}</div>
+            </div>
+          `;
+        }
+        html += `<div class="translate-btn" id="translateBtn" data-lang="en">Translate in Bengali</div>`;
+        notificationContent.innerHTML = html;
+
+        const translateBtn = document.getElementById('translateBtn');
+        if (translateBtn) {
+          translateBtn.addEventListener('click', async () => {
+            if (translateBtn.classList.contains('translating')) return;
+            
+            const currentLang = translateBtn.getAttribute('data-lang');
+            const textNodes = document.querySelectorAll('.notification-card .notif-text');
+
+            if (currentLang === 'en') {
+              translateBtn.classList.add('translating');
+              translateBtn.innerText = 'Translating...';
+              
+              try {
+                for (let node of textNodes) {
+                  // Save original English text
+                  if (!node.hasAttribute('data-original')) {
+                    node.setAttribute('data-original', node.innerText);
+                  }
+                  
+                  // Use cached Bengali if available
+                  if (node.hasAttribute('data-bengali')) {
+                    node.innerText = node.getAttribute('data-bengali');
+                  } else {
+                    let text = node.innerText;
+                    if (!text) continue;
+                    
+                    let mapped = [];
+                    text = text.replace(/(H2O The MultiGym|H2O TheMultiGym)/gi, match => {
+                      mapped.push(match);
+                      return ` HZOMULTIGYMPROT${mapped.length - 1} `;
+                    });
+                    
+                    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t&q=${encodeURIComponent(text)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    if (data && data[0]) {
+                      let translated = '';
+                      data[0].forEach(part => {
+                        if (part[0]) translated += part[0];
+                      });
+                      
+                      translated = translated.replace(/[০-৯]/g, d => String.fromCharCode(d.charCodeAt(0) - 2534 + 48));
+                      
+                      translated = translated.replace(/HZOMULTIGYMPROT\s*(\d+)/gi, (match, idx) => {
+                        return mapped[idx] !== undefined ? mapped[idx] : match;
+                      });
+                      
+                      node.innerText = translated;
+                      node.setAttribute('data-bengali', translated); // Cache it
+                    }
+                  }
+                }
+                translateBtn.innerText = 'Translate in English';
+                translateBtn.setAttribute('data-lang', 'bn');
+                translateBtn.classList.remove('translating');
+              } catch (err) {
+                console.error('Translation error:', err);
+                translateBtn.innerText = 'Translation Failed';
+                translateBtn.classList.remove('translating');
+              }
+            } else {
+              // Switch back to English
+              for (let node of textNodes) {
+                if (node.hasAttribute('data-original')) {
+                  node.innerText = node.getAttribute('data-original');
+                }
+              }
+              translateBtn.innerText = 'Translate in Bengali';
+              translateBtn.setAttribute('data-lang', 'en');
+            }
+          });
+        }
+      } else {
+        notificationBtn.classList.remove('has-notifications');
+        notificationContent.innerHTML = '<div class="no-notifications">No notifications</div>';
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching notifications:', err);
+      notificationContent.innerHTML = '<div class="no-notifications">No notifications</div>';
+    });
 });
