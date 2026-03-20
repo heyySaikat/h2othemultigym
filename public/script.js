@@ -1,3 +1,12 @@
+// Unregister any lingering service workers to prevent old cache issues
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
+
 // Page load overlay functionality
 
 window.addEventListener("load", function () {
@@ -284,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Fetch notifications
   // Using gviz/tq as it reliably provides CORS for public google sheets
-  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1nkgpX6l6BOSFygyQF0BANZ9L68Cb1GYojZx8B02vnpQ/gviz/tq?tqx=out:csv';
+  const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/1nkgpX6l6BOSFygyQF0BANZ9L68Cb1GYojZx8B02vnpQ/gviz/tq?tqx=out:csv&t=${new Date().getTime()}`;
   
   function parseCSV(str) {
     const arr = [];
