@@ -196,7 +196,7 @@ window.addEventListener('scroll', () => {
   if (!parallaxTicking) {
     window.requestAnimationFrame(() => {
       const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
-      const heroBg = document.querySelector('.hero-bg');
+      const heroBg = document.querySelector('.hero-carousel');
       const heroBox = document.querySelector('.main > .box');
       
       // Only animate if we are reasonably close to the top
@@ -436,4 +436,142 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching notifications:', err);
       notificationContent.innerHTML = '<div class="no-notifications">No notifications</div>';
     });
+});
+
+// --- Hero Image Carousel Autoplay & Indicator Sync ---
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = document.querySelectorAll('.hero-slide');
+  const indicators = document.querySelectorAll('.hero-indicators .indicator');
+  const carouselEl = document.querySelector('.hero-carousel');
+  if (slides.length === 0 || indicators.length === 0) return;
+
+  let currentHeroSlide = 0;
+  const totalHeroSlides = slides.length;
+  let heroInterval;
+
+  function showHeroSlide(index) {
+    if (index === currentHeroSlide) return;
+
+    // Determine navigation direction
+    let direction = 'next';
+    if (index === 0 && currentHeroSlide === totalHeroSlides - 1) {
+      direction = 'next';
+    } else if (index === totalHeroSlides - 1 && currentHeroSlide === 0) {
+      direction = 'prev';
+    } else if (index < currentHeroSlide) {
+      direction = 'prev';
+    }
+
+    // Toggle corresponding direction class on the container
+    if (carouselEl) {
+      if (direction === 'next') {
+        carouselEl.classList.remove('slide-prev');
+        carouselEl.classList.add('slide-next');
+      } else {
+        carouselEl.classList.remove('slide-next');
+        carouselEl.classList.add('slide-prev');
+      }
+    }
+
+    // Apply slide classes
+    slides.forEach((slide, i) => {
+      if (i === index) {
+        slide.classList.remove('exit');
+        slide.classList.add('active');
+      } else if (i === currentHeroSlide) {
+        slide.classList.remove('active');
+        slide.classList.add('exit');
+        const exitingSlide = slide;
+        setTimeout(() => {
+          exitingSlide.classList.remove('exit');
+        }, 1200); // matches the 1.2s CSS transition duration
+      } else {
+        slide.classList.remove('active');
+        slide.classList.remove('exit');
+      }
+    });
+
+    // Sync indicators
+    indicators.forEach((indicator, i) => {
+      if (i === index) {
+        indicator.classList.add('active');
+      } else {
+        indicator.classList.remove('active');
+      }
+    });
+
+    currentHeroSlide = index;
+  }
+
+  function nextHeroSlide() {
+    const next = (currentHeroSlide + 1) % totalHeroSlides;
+    showHeroSlide(next);
+  }
+
+  function startHeroCarousel() {
+    stopHeroCarousel();
+    heroInterval = setInterval(nextHeroSlide, 5000); // 5 seconds autoplay timeout
+  }
+
+  function stopHeroCarousel() {
+    if (heroInterval) {
+      clearInterval(heroInterval);
+    }
+  }
+
+  // Click handler for indicators
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+      showHeroSlide(index);
+      startHeroCarousel(); // restart interval on manual click
+    });
+  });
+
+  // Swipe Gestures & Dragging for Carousel
+  if (carouselEl) {
+    let startX = 0;
+    let endX = 0;
+
+    // Touch Event Listeners
+    carouselEl.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    carouselEl.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    }, { passive: true });
+
+    // Mouse Event Listeners for Desktop Swiping
+    carouselEl.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+    });
+
+    carouselEl.addEventListener('mouseup', (e) => {
+      endX = e.clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const threshold = 50; // minimum drag distance in pixels
+      const swipeDistance = endX - startX;
+
+      if (Math.abs(swipeDistance) > threshold) {
+        if (swipeDistance > 0) {
+          // Swipe right -> Go to previous slide
+          const prev = (currentHeroSlide - 1 + totalHeroSlides) % totalHeroSlides;
+          showHeroSlide(prev);
+          startHeroCarousel(); // reset autoplay timer
+        } else {
+          // Swipe left -> Go to next slide
+          const next = (currentHeroSlide + 1) % totalHeroSlides;
+          showHeroSlide(next);
+          startHeroCarousel(); // reset autoplay timer
+        }
+      }
+    }
+  }
+
+  // Initialize carousel
+  startHeroCarousel();
 });

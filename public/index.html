@@ -46,7 +46,7 @@
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Orbitron:wght@400..900&amp;family=Outfit:wght@100..900&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&amp;display=swap" />
   </noscript>
-  <link rel="preload" href="resources/bgDesktop.jpeg" as="image" type="image/jpeg" fetchpriority="high" />
+  <link rel="preload" href="resources/bg1.webp" as="image" type="image/webp" fetchpriority="high" />
   <link rel="stylesheet" href="style.css?v=202603201610" />
   <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon" />
 
@@ -73,7 +73,21 @@
   </div>
 
   <div class="main">
-    <div class="hero-bg"></div>
+    <div class="hero-carousel slide-next">
+      <div class="hero-slide active" style="background-image: url('resources/bg1.webp')"></div>
+      <div class="hero-slide" style="background-image: url('resources/bg2.webp')"></div>
+      <div class="hero-slide" style="background-image: url('resources/bg3.webp')"></div>
+      <div class="hero-slide" style="background-image: url('resources/bg4.webp')"></div>
+      <div class="hero-slide" style="background-image: url('resources/bg5.webp')"></div>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-indicators">
+      <span class="indicator active" data-slide="0"></span>
+      <span class="indicator" data-slide="1"></span>
+      <span class="indicator" data-slide="2"></span>
+      <span class="indicator" data-slide="3"></span>
+      <span class="indicator" data-slide="4"></span>
+    </div>
     <nav id="navbar">
       <div class="nav-brand">
         <a id="navTxt" href="#" onclick="window.scrollTo(0, 0); return false;" aria-label="H2O TheMultiGym Home">
@@ -240,7 +254,7 @@
         </div>
       </div>
     </div>
-    <div class="separator"></div>
+    <!-- <div class="separator"></div> -->
     <div class="photos">
       <div class="title reveal-up">Fit for your lifestyle</div>
       <div class="body reveal-up">
